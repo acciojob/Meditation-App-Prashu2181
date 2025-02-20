@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("meditation-video");
+    const videoSource = document.getElementById("video-source");
     const playButton = document.querySelector(".play");
     const timeDisplay = document.querySelector(".time-display");
-    const timeButtons = document.querySelectorAll(".time-options button");
+    const timeButtons = document.querySelectorAll(".time-select button");
     const beachSoundButton = document.getElementById("beach-sound");
     const rainSoundButton = document.getElementById("rain-sound");
 
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     let selectedTime = 600; // Default 10 minutes
-    let currentAudio = new Audio(sounds.beach.audio);
+    let currentAudio = new Audio();
     let isPlaying = false;
 
     playButton.addEventListener("click", () => {
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             playButton.textContent = "▶️";
         } else {
             video.play();
-            currentAudio.play();
+            currentAudio.play().catch(() => console.log("Audio play error"));
             playButton.textContent = "⏸️";
         }
         isPlaying = !isPlaying;
@@ -46,12 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function switchSound(type) {
-        video.src = sounds[type].video;
+        videoSource.src = sounds[type].video;  // Update video source
+        video.load();  // Reload video to apply changes
         currentAudio.pause();
         currentAudio = new Audio(sounds[type].audio);
         if (isPlaying) {
             video.play();
-            currentAudio.play();
+            currentAudio.play().catch(() => console.log("Audio play error"));
         }
     }
 });

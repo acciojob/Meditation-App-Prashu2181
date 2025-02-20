@@ -9,7 +9,7 @@ body {
     margin: 0;
 }
 
-#app {
+.app {
     text-align: center;
     width: 90%;
     max-width: 600px;

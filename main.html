@@ -7,11 +7,10 @@
 </head>
 
 <body>
-	<body>
-    <div id="app">
+	<div class="app">  <!-- Changed from id="app" to class="app" -->
         <div class="vid-container">
             <video id="meditation-video" loop>
-                <source src="Sounds/beach.mp4" type="video/mp4">
+                <source id="video-source" src="Sounds/beach.mp4" type="video/mp4">
             </video>
         </div>
         
@@ -24,13 +23,14 @@
             <div class="time-display">10:0</div>
             <button class="play">▶️</button>
 
-            <div class="time-options">
+            <div class="time-select">  <!-- Changed from .time-options to .time-select -->
                 <button id="smaller-mins">2 Minutes</button>
                 <button id="medium-mins">5 Minutes</button>
                 <button id="long-mins">10 Minutes</button>
             </div>
         </div>
     </div>
+
 	<!-- the entire body must be written by student -->
     <script type="text/javascript" src="./script.js">
 </script>
