@@ -1,59 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const video = document.getElementById("meditation-video");
-    const videoSource = document.getElementById("video-source");
-    const playButton = document.querySelector(".play");
     const timeDisplay = document.querySelector(".time-display");
-    const timeButtons = document.querySelectorAll(".time-select button");
-    const beachSoundButton = document.getElementById("beach-sound");
-    const rainSoundButton = document.getElementById("rain-sound");
+    const playButton = document.querySelector(".play");
+    const audio = document.getElementById("audio-player");
+    const audioSource = document.getElementById("audio-source");
 
-    const sounds = {
-        beach: { video: "Sounds/beach.mp4", audio: "Sounds/beach.mp3" },
-        rain: { video: "Sounds/rain.mp4", audio: "Sounds/rain.mp3" }
-    };
+    const smallerMinsBtn = document.querySelector(".smaller-mins");
+    const mediumMinsBtn = document.querySelector(".medium-mins");
+    const longMinsBtn = document.querySelector(".long-mins");
 
-    let selectedTime = 600; // Default 10 minutes
-    let currentAudio = new Audio();
+    let timeLeft = 600; // Default to 10 minutes
+    let timer;
     let isPlaying = false;
+
+    function updateTime() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timeDisplay.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+    }
 
     playButton.addEventListener("click", () => {
         if (isPlaying) {
-            video.pause();
-            currentAudio.pause();
+            audio.pause();
+            clearInterval(timer);
+            timer = null;
             playButton.textContent = "▶️";
         } else {
-            video.play();
-            currentAudio.play().catch(() => console.log("Audio play error"));
+            audio.play().catch(() => console.log("Audio play error"));
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTime();
+                } else {
+                    clearInterval(timer);
+                }
+            }, 1000);
             playButton.textContent = "⏸️";
         }
         isPlaying = !isPlaying;
     });
 
-    timeButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            if (button.id === "smaller-mins") selectedTime = 120;
-            if (button.id === "medium-mins") selectedTime = 300;
-            if (button.id === "long-mins") selectedTime = 600;
-            timeDisplay.textContent = `${Math.floor(selectedTime / 60)}:0`;
-        });
+    // Time selection buttons
+    smallerMinsBtn.addEventListener("click", () => {
+        timeLeft = 120;
+        updateTime();
     });
 
-    beachSoundButton.addEventListener("click", () => {
-        switchSound("beach");
+    mediumMinsBtn.addEventListener("click", () => {
+        timeLeft = 300;
+        updateTime();
     });
 
-    rainSoundButton.addEventListener("click", () => {
-        switchSound("rain");
+    longMinsBtn.addEventListener("click", () => {
+        timeLeft = 600;
+        updateTime();
     });
 
-    function switchSound(type) {
-        videoSource.src = sounds[type].video;  // Update video source
-        video.load();  // Reload video to apply changes
-        currentAudio.pause();
-        currentAudio = new Audio(sounds[type].audio);
-        if (isPlaying) {
-            video.play();
-            currentAudio.play().catch(() => console.log("Audio play error"));
-        }
-    }
+    updateTime(); // Set initial time display
 });

@@ -7,28 +7,26 @@
 </head>
 
 <body>
-	<div class="app">  <!-- Changed from id="app" to class="app" -->
+	
+	<div class="app">
         <div class="vid-container">
-            <video id="meditation-video" loop>
-                <source id="video-source" src="Sounds/beach.mp4" type="video/mp4">
-            </video>
+            <video id="background-video" src="video.mp4" autoplay loop muted></video>
         </div>
-        
+
+        <div class="time-select">
+            <button class="smaller-mins">2 min</button>
+            <button class="medium-mins">5 min</button>
+            <button class="long-mins">10 min</button>
+        </div>
+
         <div class="player-container">
-            <div class="sound-picker">
-                <button id="beach-sound">🌊 Beach</button>
-                <button id="rain-sound">🌧️ Rain</button>
-            </div>
-
-            <div class="time-display">10:0</div>
+            <audio id="audio-player">
+                <source id="audio-source" src="Sounds/beach.mp3" type="audio/mp3">
+            </audio>
             <button class="play">▶️</button>
-
-            <div class="time-select">  <!-- Changed from .time-options to .time-select -->
-                <button id="smaller-mins">2 Minutes</button>
-                <button id="medium-mins">5 Minutes</button>
-                <button id="long-mins">10 Minutes</button>
-            </div>
         </div>
+
+        <div class="time-display">10:00</div>
     </div>
 
 	<!-- the entire body must be written by student -->
